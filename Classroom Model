@@ -1,0 +1,15 @@
+const ClassroomSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  teacher: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  students: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+  schedule: [
+    {
+      day: { type: String, required: true }, // e.g., "Monday"
+      startTime: { type: String, required: true }, // e.g., "12:00 PM"
+      endTime: { type: String, required: true },  // e.g., "6:00 PM"
+    }
+  ]
+});
+
+module.exports = mongoose.model('Classroom', ClassroomSchema);
+
