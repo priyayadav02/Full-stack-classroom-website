@@ -1,0 +1,31 @@
+jsx
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import TimetableDisplay from '../components/TimetableDisplay';
+import ClassmateList from '../components/ClassmateList';
+
+const StudentDashboard = () => {
+  const [timetable, setTimetable] = useState([]);
+  const [classmates, setClassmates] = useState([]);
+
+  useEffect(() => {
+    // Fetch timetable and classmates
+    const fetchData = async () => {
+      const timetableRes = await axios.get('/api/student/timetable');
+      setTimetable(timetableRes.data);
+      const classmatesRes = await axios.get('/api/student/classmates');
+      setClassmates(classmatesRes.data);
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      <h2>Student Dashboard</h2>
+      <TimetableDisplay timetable={timetable} />
+      <ClassmateList classmates={classmates} />
+    </div>
+  );
+};
+
+export default StudentDashboard;
