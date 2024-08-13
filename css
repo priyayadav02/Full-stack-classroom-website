@@ -1,0 +1,138 @@
+/* Button.module.css */
+.button {
+  background-color: #6200ea;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button:hover {
+  background-color: #3700b3;
+}
+jsx
+import React from 'react';
+import styles from './Button.module.css';
+
+const Button = ({ label, onClick }) => {
+  return (
+    <button className={styles.button} onClick={onClick}>
+      {label}
+    </button>
+  );
+};
+
+export default Button;
+
+
+#### *3. Use the Button Component in a Dashboard*
+
+Now you can use this Button component in one of your dashboard components.
+
+jsx
+import React from 'react';
+import Button from '../components/Button';
+
+const PrincipalDashboard = () => {
+  const handleCreateClassroom = () => {
+    console.log('Classroom Created!');
+  };
+
+  return (
+    <div>
+      <h2>Principal Dashboard</h2>
+      <Button label="Create Classroom" onClick={handleCreateClassroom} />
+    </div>
+  );
+};
+
+export default PrincipalDashboard;
+
+
+### *Scoped Styles Example*
+
+If you have multiple buttons on the page with different styles, you can create multiple classes in your CSS Module and apply them as needed.
+
+css
+/* Button.module.css */
+.primary {
+  background-color: #6200ea;
+  color: white;
+}
+
+.secondary {
+  background-color: #03dac6;
+  color: black;
+}
+
+
+And in your React component:
+
+jsx
+import React from 'react';
+import styles from './Button.module.css';
+
+const Button = ({ label, onClick, type = 'primary' }) => {
+  const className = type === 'primary' ? styles.primary : styles.secondary;
+
+  return (
+    <button className={className} onClick={onClick}>
+      {label}
+    </button>
+  );
+};
+
+export default Button;
+
+css
+/* TeacherTable.module.css */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.th {
+  background-color: #f4f4f4;
+  text-align: left;
+  padding: 10px;
+}
+
+.td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+
+jsx
+import React from 'react';
+import styles from './TeacherTable.module.css';
+
+const TeacherTable = ({ teachers }) => {
+  return (
+    <table className={styles.table}>
+      <thead>
+        <tr>
+          <th className={styles.th}>Name</th>
+          <th className={styles.th}>Email</th>
+          <th className={styles.th}>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {teachers.map((teacher) => (
+          <tr key={teacher.id}>
+            <td className={styles.td}>{teacher.name}</td>
+            <td className={styles.td}>{teacher.email}</td>
+            <td className={styles.td}>
+              {/* Action buttons here */}
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+};
+
+export default TeacherTable;
+
