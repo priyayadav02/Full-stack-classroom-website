@@ -1,0 +1,82 @@
+jsx
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import TeacherTable from '../components/TeacherTable';
+import StudentTable from '../components/StudentTable';
+import ClassroomForm from '../components/ClassroomForm';
+
+const PrincipalDashboard = () => {
+  const [teachers, setTeachers] = useState([]);
+  const [students, setStudents] = useState([]);
+  const [classrooms, setClassrooms] = useState([]);
+
+  useEffect(() => {
+    // Fetch teachers, students, and classrooms
+    const fetchData = async () => {
+      const teachersRes = await axios.get('/api/principal/teachers');
+      setTeachers(teachersRes.data);
+      const studentsRes = await axios.get('/api/principal/students');
+      setStudents(studentsRes.data);
+      const classroomsRes = await axios.get('/api/principal/classrooms');
+      setClassrooms(classroomsRes.data);
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      <h2>Principal Dashboard</h2>
+      <TeacherTable teachers={teachers} />
+      <StudentTable students={students} />
+      <ClassroomForm />
+    </div>
+  );
+};
+
+export default PrincipalDashboard;
+
+
+#### *Teacher Dashboard:*
+- *View Students:*
+  - A table displaying students in the teacher’s assigned classroom with options to edit or delete student information.
+
+- *Create Timetable:*
+  - A form to create a timetable, including fields for subject, day, and start/end times with validation to prevent overlap.
+
+- *Components:*
+  - *StudentTable:* Displays all students in the classroom.
+  - *TimetableForm:* Form to create and manage the classroom timetable.
+
+jsx
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import StudentTable from '../components/StudentTable';
+import TimetableForm from '../components/TimetableForm';
+
+const TeacherDashboard = () => {
+  const [students, setStudents] = useState([]);
+  const [timetable, setTimetable] = useState([]);
+
+  useEffect(() => {
+    // Fetch students and timetable
+    const fetchData = async () => {
+      const studentsRes = await axios.get('/api/teacher/students');
+      setStudents(studentsRes.data);
+      const timetableRes = await axios.get('/api/teacher/timetable');
+      setTimetable(timetableRes.data);
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <div>
+      <h2>Teacher Dashboard</h2>
+      <StudentTable students={students} />
+      <TimetableForm timetable={timetable} />
+    </div>
+  );
+};
+
+export default TeacherDashboard;
+
+
